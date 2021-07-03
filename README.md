@@ -88,8 +88,10 @@ export VAULT_NAMESPACE=admin
 vault login
 # (enter your admin token)
 
-vault token create -policy salt-master
+vault token create -policy salt-master -ttl 8h
 ```
+
+Note the `-ttl` parameter - after this time, the token will be invalid.
 
 Update `/etc/salt/master.d/vault.conf` with your cluster's URL and the token you just generated.
 Make sure the URL has no trailing slash.
