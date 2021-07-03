@@ -191,3 +191,20 @@ vault kv get kv/user
 # name        test
 # password    hunter2
 ```
+
+# Use the patch in your Salt environment
+
+* Copy `salt/patch_salt.sls` to a location in your environment, e.g. `/srv/salt/vault/patch_namespaces.sls`
+* Copy `salt/files/58586-vault-namespace.diff` too, e.g. `/srv/salt/vault/files/58586-vault-namespace.diff`
+* Update the file path referenced in the state file:
+
+```diff
+  vault_patch:
+    file.patch:
+      - name: '{{grains.saltpath}}'
+-     - source: salt://files/58586-vault-namespace.diff
++     - source: salt://vault/files/58586-vault-namespace.diff
+      - strip: 2
+```
+
+* Run the state: `salt \* state.sls vault.patch_namespaces`
